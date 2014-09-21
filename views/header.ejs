@@ -1,0 +1,18 @@
+<div class="header">
+	<header>
+    	<div id="logo">
+        	<img src="/images/PeteAppDesigns-Logo.svg" alt="logo" id="top-logo">
+          	<h1><%= title %></h1>
+        </div>  
+    </header>
+
+    <footer>
+    	<div id="navbar">
+        	<ul>
+            	<% for(var i=0; i<navbar.length; i++) {%>
+              	<li><a href=<%= navbar[i].link %>><%= navbar[i].name %></a></li>
+            	<% } %>
+          	</ul>
+        </div>
+    </footer>
+</div>
