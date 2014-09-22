@@ -1,16 +1,32 @@
-#logo {
+a {
+	text-decoration: none;
+}
+
+#header header {
 	display: table;
     margin: 0 auto;
     text-align: center;
+	font-size: 3em; 
+	background-color: @orange;
+	width: 100%;
+	padding-top: 20px;
 }
 
-#logo #top-logo {
-	
-	width: 75%;
+#header header h1 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#header header a {
+	color: white;
+}
+
+#header header a:hover {
+	color: gray;
 }
 
 #navbar {
-	background-color: @cyan;
+	background-color: @orange;
 	height: 50pt;
 	display: table;
 	width: 100%;
@@ -29,6 +45,20 @@
 }
 
 #navbar ul li a {
-	text-decoration: none;
 	color: white;
+}
+
+#navbar ul li a:hover {
+	color: gray;
+}
+
+#body-content {
+	
+	margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 800px;
+    width: 90%;
+    background-color: gray;
 }

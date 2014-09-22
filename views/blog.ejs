@@ -1,5 +1,15 @@
 <%- layout('layout') %>
 
 <% include header %>
-	<h1>blog</h1>
+
+<div id="body-content">
+
+	<h1>Blog</h1>
+
+	<% for(var i=0; i<posts.length; i++) {%>
+	    <%- partial ('post', posts[i]) %>
+    <% } %>
+
+</div>
+
 <% include footer %>

@@ -33,8 +33,10 @@ module.exports.routes = {
   ***************************************************************************/
 // view: 'index'
   
-  'GET /': 'IndexController.index',
-  'GET /apps': 'AppController.index'
+  'GET /': 'BlogController.index',
+  'GET /about': 'AboutController.index',
+  'GET /portfolio': 'Portfolio.index',
+  'GET /contact': 'ContactController.index'
 
   /***************************************************************************
   *                                                                          *
