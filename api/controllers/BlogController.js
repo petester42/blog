@@ -6,45 +6,50 @@
  */
 
 module.exports = {
-	
+
 	index : function (request, response) {
+		//todo change to posts
+		var postConfig = sails.config.posts;
 
-		var http = require('http');
-
-//get posts from the web
-		var links = ["https://raw.githubusercontent.com/NSHipster/articles/master/2012-07-07-nsindexset.md", "https://raw.githubusercontent.com/NSHipster/articles/master/2012-07-14-nscache.md", "https://raw.githubusercontent.com/NSHipster/articles/master/2012-07-24-nssortdescriptor.md"];
-		
-		generatePosts(links, function (posts) {
+		generatePosts(postConfig.postDirectory, function (posts) {
 			return response.render('blog', {"posts" : posts});
 		});
 	}
 };
 
-function generatePosts(links, callback) {
+function generatePosts(path, callback) {
 
 //limit number of posts
-	var posts = [];
-	var processed = links.length;
+	var fs = require('fs');
 
-	for (i = 0; i < links.length; i++) {
-			
-		var markdown = getMarkdown(links[i], function(body) {
+	fs.readdir(path, function (error, files) {
 
-			if (body != null) {
-				posts.push({"content" : body});
-			}
-			
-			--processed;
+		var posts = [];
 
-			if (processed == 0) {
+		var processed = files.length;
+
+		for (i = 0; i < files.length; i++) {
 				
-				callback(posts.sort());
-			}
-		});
-	};
+			var postConfig = sails.config.posts;
+
+			var markdown = getMarkdown(postConfig.postDirectory + "/" + files[i], function(body) {
+
+				if (body != null) {
+					posts.push({"content" : body});
+				}
+				
+				--processed;
+
+				if (processed == 0) {
+					
+					callback(posts.sort());
+				}
+			});
+		};
+	});
 }
 
-function getMarkdown(link, callback) {
+function getMarkdown(path, callback) {
 
 	var request = require("request");
 	var marked = require('marked');
@@ -59,16 +64,16 @@ function getMarkdown(link, callback) {
 	  smartypants: false
 	});
 
-	request(link, function(error, response, body) {
+	var fs = require('fs');
+	fs.readFile(path, function (error, data) {
 
-	  	if (error) {
+		if (error) {
 	  		callback(null);
 	  	}
 
 	  	else {
-	  		callback(marked(body));
+	  		callback(marked(data.toString()));
 	  	}
-
 	});
 }
 
