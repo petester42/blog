@@ -71,6 +71,7 @@ img {
 
 table {
 	display: block;
+	width: 100%;
 }
 
 thead {
@@ -79,6 +80,8 @@ thead {
 
 tbody {		
 	display: block;
+	width: auto;
+	white-space: nowrap;
 }
 
 thead tr {
@@ -97,14 +100,14 @@ td {
 	display: block;
 }
 
-/*#flip-scroll table { display: block; position: relative; width: 100%; }
-	#flip-scroll thead { display: block; float: left; }
-	#flip-scroll tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
-	#flip-scroll thead tr { display: block; }
-	#flip-scroll th { display: block; text-align: right; }
-	#flip-scroll tbody tr { display: inline-block; vertical-align: top; }
-	#flip-scroll td { display: block; min-height: 1.25em; text-align: left; }*/
-
+/*table { display: block; position: relative; width: 100%; }
+thead { display: block; float: left; }
+tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
+thead tr { display: block; }
+th { display: block; text-align: right; }
+tbody tr { display: inline-block; vertical-align: top; }
+td { display: block; min-height: 1.25em; text-align: left; }
+*/
 .wordwrap { 
    white-space: pre-wrap;      /* CSS3 */   
    white-space: -moz-pre-wrap; /* Firefox */    
