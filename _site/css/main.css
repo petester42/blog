@@ -367,9 +367,11 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  height: 50%;
   overflow: hidden; }
   .post .article-image .post-image-image {
     background-size: cover;
+    background-position: center;
     position: absolute;
     top: 0;
     left: 0;
@@ -400,6 +402,7 @@ body {
     line-height: 1.1;
     color: #fff;
     margin-bottom: 16px;
+    text-align: center;
     text-shadow: 0px 1px 16px rgba(0, 0, 0, 0.5), 0px 0px 1px rgba(0, 0, 0, 0.5); }
   .post .article-image .author-image {
     display: inline-block;
@@ -439,7 +442,7 @@ body {
     text-decoration: underline; }
 .post .noarticleimage .post-meta {
   font-family: Open Sans, MundoSans, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  padding-top: 60px; }
+  padding: 0; }
 .post .noarticleimage .post-title {
   font-weight: 700;
   font-style: normal;
