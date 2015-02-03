@@ -1,9 +1,8 @@
 ruby '2.2.0'
 source "https://rubygems.org"
 
-gem 'json'
 gem 'jekyll'
-gem 'bourbon'
+gem 'json'
 
 group :development do
   gem 'rake'

@@ -26,7 +26,6 @@ main
   display: block
 
 
-
 body
   font-family: $font-sans
   margin: 0
@@ -48,6 +47,18 @@ body
   background-color: #000
   overflow: hidden
   z-index: 99
+  display: table
+  text-decoration: none
+
+  .blog-logo-title
+    text-color: #fff
+    text-align: center
+    color: #fff
+    vertical-align: middle
+    display: table-cell
+    font-size: 20px
+    font-family: Georgia
+
   .logo
     display: block
     position: absolute
@@ -59,10 +70,11 @@ body
     background-repeat: no-repeat
 
 .teaserimage
-  height: 450px
   position: relative
   overflow: hidden
   background-color: #000
+  padding-bottom: 25%
+
   .teaserimage-image
     background-size: cover
     background-position: center
@@ -93,12 +105,23 @@ body
     background-size: cover
     border-radius: 50%
     z-index: 99
-    text-indent: -9999px
     border: 3px solid #fff
-    background-color: #fff
+    background-color: #000
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3)
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3)
     box-shadow: 0 1px 1px rgba(0,0,0,0.3)
+    display: table
+    text-decoration: none
+
+    .blog-logo-title
+      text-color: #fff
+      text-align: center
+      color: #fff
+      vertical-align: middle
+      display: table-cell
+      font-size: 40px
+      font-family: Georgia
+
   .blog-title
     margin: 0
     padding: $rs*5.25 $rs $rs/2
@@ -136,7 +159,7 @@ body
   @include respond-to(800)
     padding: 0 $rs*2
   article
-    padding: 40px 0
+    padding: 30px 0 0 0
     border-bottom: 1px solid #f2f2f0
     &:last-child
       border-bottom: 0px
@@ -191,7 +214,7 @@ body
 
 .pagination
   text-align: center
-  padding: 0 0 40px
+  padding: 0 0 30px
   font-size: $rs/4*3
   a
     color: #999
@@ -218,7 +241,7 @@ body
   text-shadow: 0px 1px 4px rgba(0,0,0,0.25), 0px 0px 1px rgba(0,0,0,0.5)
 
 .site-footer
-  margin: 0 auto 40px
+  margin: 0 auto 30px
   padding: 0 0
   width: 100%
   max-width: 640px
@@ -239,7 +262,7 @@ body
     left: 0
     right: 0
     bottom: 0
-    height: 50%
+    height: 25%
     overflow: hidden
     .post-image-image
       background-size: cover
@@ -254,7 +277,7 @@ body
       z-index: 1
     .post-meta
       position: absolute
-      bottom: $rs*5
+      bottom: 0
       left: 30%
       right: 30%
       z-index: 9
@@ -320,7 +343,8 @@ body
       font-size: 50px
       line-height: 1.1
       color: #333332
-      margin-bottom: 16px
+      margin-bottom: 30px
+      margin-top: 30px
     .author-image
       display: inline-block
       width: 30px
@@ -365,8 +389,8 @@ body
       font-style: normal
       font-size: 32px
       line-height: 1.2
-      padding-top: 31px
-      margin-bottom: 4px
+      padding-top: 4px
+      margin: 0 0 10px 0
     p
       font-weight: 400
       font-style: normal
@@ -434,7 +458,7 @@ body
     ol li
       list-style-type: decimal
   .bottom-teaser
-    padding: 10px 0 0
+    padding: 10px 0 30px
     font-family: $font-sans
     hr
       border: 0
@@ -588,6 +612,12 @@ body
   margin-top: 50px
 .post-tag-articleimage
   display: none
+
+.social-icons 
+  font-size: 40px
+  .icon
+    display: inline-block
+    padding: 0 5px 0 5px
 
 pre,
 code

@@ -2,9 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     blankslate (2.1.2.4)
-    bourbon (4.1.1)
-      sass (~> 3.3)
-      thor
     celluloid (0.16.0)
       timers (~> 4.0.0)
     classifier-reborn (2.0.3)
@@ -77,7 +74,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bourbon
   foreman
   jekyll
   json
