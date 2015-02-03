@@ -26,3 +26,5 @@ node_modules
 
 #temp data
 temp_posts
+
+.sass-cache/*
