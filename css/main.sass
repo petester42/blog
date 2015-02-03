@@ -39,12 +39,12 @@ body
   font-feature-settings: "liga", "dlig"
 
 .logo-readium
-  position: fixed
+  position: absolute
   left: 10px
   top: 10px
   width: $rs*3
   height: $rs*3
-  background-color: #000
+  background-color: rgba(0,0,0,0.75)
   overflow: hidden
   z-index: 99
   display: table
@@ -57,7 +57,7 @@ body
     vertical-align: middle
     display: table-cell
     font-size: 20px
-    font-family: Georgia
+    font-family: $font-serif
 
   .logo
     display: block
@@ -120,7 +120,7 @@ body
       vertical-align: middle
       display: table-cell
       font-size: 40px
-      font-family: Georgia
+      font-family: $font-serif
 
   .blog-title
     margin: 0
