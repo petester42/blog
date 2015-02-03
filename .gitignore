@@ -27,4 +27,7 @@ node_modules
 #temp data
 temp_posts
 
-.sass-cache/*
+.sass-cache
+.s3cfg
+_site
+_drafts
