@@ -11,13 +11,14 @@ GEM
       execjs
     coffee-script-source (1.9.0)
     colorator (0.1)
+    colored (1.2)
+    configure-s3-website (1.6.0)
+      deep_merge (= 1.0.0)
+    deep_merge (1.0.0)
     dotenv (1.0.2)
     execjs (2.2.2)
     fast-stemmer (1.0.2)
     ffi (1.9.6)
-    foreman (0.77.0)
-      dotenv (~> 1.0.2)
-      thor (~> 0.19.1)
     hitimes (1.2.2)
     jekyll (2.5.3)
       classifier-reborn (~> 2.0)
@@ -61,6 +62,11 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     redcarpet (3.2.2)
+    s3_website (2.7.6)
+      colored (= 1.2)
+      configure-s3-website (= 1.6.0)
+      dotenv (~> 1.0)
+      thor (~> 0.18)
     safe_yaml (1.0.4)
     sass (3.4.11)
     thor (0.19.1)
@@ -74,7 +80,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  foreman
   jekyll
   json
   rake
+  s3_website

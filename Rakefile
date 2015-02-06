@@ -1,153 +1,78 @@
-namespace :articles do
-  task :build, [:locale] do |task, args|
-    system %{
-      bundle exec jekyll build --config _config.#{args.locale}.yml
-    }
+namespace :deploy do
+  desc "Deployment to production"
+  task :production do
+    sh 'bundle exec s3_website push --config-dir="./production"'
   end
 
-  task :compress do |task|
-    system %{
-      find _site/ -iname '*.html' -exec gzip -n --best {} +
-      find _site/ -iname '*.xml' -exec gzip -n --best {} +
-      for f in `find _site/ -iname '*.gz'`; do
-        mv $f ${f%.gz}
-      done
-      mv _site/products.xml _site/products.gz
-    }
+  desc "Deployment to staging"
+  task :staging do
+    sh 'bundle exec s3_website push --config-dir="./staging"'
   end
 
-  task :deploy, [:tld] do |task, args|
-    system %{
-      s3cmd sync -c ./.s3cfg                                    \
-                 -M                                             \
-                 --acl-public                                   \
-                 --add-header 'Content-Encoding:gzip'           \
-                 --exclude '*.*'                                \
-                 --include '*.html'                             \
-                 --include '*.xml'                              \
-                 --include 'products.gz'                        \
-                 --progress                                     \
-                 --verbose                                      \
-                 _site/ s3://nshipster.#{args.tld}/
-    }
+  desc "Deploys to staging and production"
+  task :all do
+    sh 'rake deploy:production'
+    sh 'rake deploy:staging'
+  end
 
-    system %{
-      s3cmd sync -c ./.s3cfg                                    \
-                 --acl-public                                   \
-                 --exclude '*.*'                                \
-                 --include '*.txt'                              \
-                 --progress                                     \
-                 --verbose                                      \
-                 _site/ s3://nshipster.#{args.tld}/
-    }
+  desc "Deploy if Travis environment variables are set correctly"
+  task :travis do
+    branch = ENV['TRAVIS_BRANCH']
+    pull_request = ENV['TRAVIS_PULL_REQUEST']
+    
+    abort 'Must be run on Travis' unless branch
+    
+    if pull_request != 'false'
+      puts 'Skipping deploy for pull request; can only be deployed from master branch.'
+      exit 0 
+    end
+
+    if branch != 'master'
+      puts "Skipping deploy for #{ branch }; can only be deployed from master branch."
+      exit 0
+    end
+
+    sh 'rake deploy:all'
   end
 end
 
-namespace :assets do
-  # namespace :images do
-  # end
-
-  namespace :stylesheets do
-    task :build do
-      system %{
-        bundle exec sass --force -t compressed --update assets/sass:assets/css
-      }
-    end
-
-    task :compress do
-      system %{
-        find assets/css -iname '*.css' -exec gzip -n --best {} +
-        for f in `find assets/css -iname '*.gz'`; do
-          mv $f ${f%.gz}
-        done
-      }
-    end
-
-    task :deploy, [:tld] do |task, args|
-      system %{
-        s3cmd put -c ./.s3cfg                                    \
-                  -M                                             \
-                  --acl-public                                   \
-                  --add-header 'Content-Encoding:gzip'           \
-                  --recursive                                    \
-                  --progress                                     \
-                  --verbose                                      \
-                  assets/css s3://nshipster.#{args.tld}/
-      }
-    end
+namespace :publish do
+  desc "Build and deploy to production"
+  task :production do
+    sh 'rake build'
+    sh 'rake deploy:production'
   end
 
-  namespace :javascripts do
-    task :deploy, [:tld] do |task, args|
-      system %{
-        s3cmd put -c ./.s3cfg                                    \
-                  -M                                             \
-                  --acl-public                                   \
-                  --recursive                                    \
-                  --progress                                     \
-                  --verbose                                      \
-                  assets/js s3://nshipster.#{args.tld}/
-      }
-    end
+  desc "Build and deploy to staging"
+  task :staging do
+    sh 'rake build'
+    sh 'rake deploy:staging'
   end
 
-  namespace :fonts do
-    task :deploy, [:tld] do |task, args|
-      system %{
-        s3cmd put -c ./.s3cfg                                    \
-                  -M                                             \
-                  --acl-public                                   \
-                  --recursive                                    \
-                  --progress                                     \
-                  --verbose                                      \
-                  assets/fonts s3://nshipster.#{args.tld}/
-      }
-    end
-  end
-
-  namespace :icons do
-    task :deploy, [:tld] do |task, args|
-      system %{
-        s3cmd put -c ./.s3cfg                                    \
-                  -M                                             \
-                  --acl-public                                   \
-                  --recursive                                    \
-                  --progress                                     \
-                  --verbose                                      \
-                  assets/favicon.ico s3://nshipster.#{args.tld}/
-      }
-
-      system %{
-        s3cmd sync -c ./.s3cfg                                   \
-                   -M                                            \
-                   --acl-public                                  \
-                   --exclude '*.*'                               \
-                   --include '*.png'                             \
-                   --progress                                    \
-                   --verbose                                     \
-                   assets/ s3://nshipster.#{args.tld}/
-      }
-    end
+  desc "Build and deploy to both staging and production"
+  task :all do
+    sh 'rake build'
+    sh 'rake deploy:all'
   end
 end
 
-task :publish, [:locale] do |task, args|
-  locale = args.locale || "en"
-
-  Rake::Task["articles:build"].invoke(locale)
-  Rake::Task["articles:compress"].invoke
-  Rake::Task["articles:deploy"].invoke(tld_for_locale(locale))
+desc "Build site locally"
+task :build do
+  sh 'bundle exec jekyll build'
 end
 
-task :default => [:publish]
+desc "Start server"
+task :server do
+  puts "Starting server"
 
-private
+  jekyll = Process.spawn("bundle exec jekyll serve")
 
-def tld_for_locale(locale)
-  return case locale
-            when "en" then "com"
-            when "zh" then "cn"
-            else
-              raise "Invalid Locale"
-          end
-end
+  trap("INT") {
+    Process.kill(9, jekyll) rescue Errno::ESRCH
+    exit 0
+  }
+
+  Process.wait(jekyll)
+end 
+
+task :default => :server

@@ -3,8 +3,5 @@ source "https://rubygems.org"
 
 gem 'jekyll'
 gem 'json'
-
-group :development do
-  gem 'rake'
-  gem 'foreman'
-end
+gem 'rake'
+gem 's3_website'

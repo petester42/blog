@@ -28,6 +28,6 @@ node_modules
 temp_posts
 
 .sass-cache
-.s3cfg
 .tmp
+.env
 _site
