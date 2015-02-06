@@ -29,4 +29,5 @@ temp_posts
 
 .sass-cache
 .s3cfg
+.tmp
 _site
