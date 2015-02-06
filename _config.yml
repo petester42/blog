@@ -51,4 +51,4 @@ social:
 #    share_title:
 #    share_link:
 
-exclude: [vendor, "Gemfile", "Gemfile.lock", "Rakefile", "LICENCE", "README", "staging", "production"]
+exclude: [vendor, "Gemfile", "Gemfile.lock", "Rakefile", "LICENCE", "README.md", "staging", "production"]
