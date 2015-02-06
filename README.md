@@ -1,3 +1,2 @@
-# pierremarcairoldi.com
-
-a [Sails](http://sailsjs.org) application
+# pierremarcairoldi
+pierremarcairoldi.com
