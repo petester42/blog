@@ -5,20 +5,42 @@
 
   <body>
 
-    {% include header.html %}
+  {% include header.html %}
 
-    <!-- content start -->
+  <!-- content start -->
 
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
+  <div class="page-content">
+    <div class="wrapper">
+      <div class="teaserimage">
+        <div class="teaserimage-image" {% if site.cover %}style="background-image: url({{ site.cover }})"{% endif %}>
+          Teaser Image
+        </div>
       </div>
+
+      <header class="blog-header">
+        {% if site.logo %}
+          <a class="blog-logo" href="{{ site.url }}"><div class="blog-logo-title">{{ site.logo }}</div></a>
+        {% endif %}
+        <h1 class="blog-title">{{ site.title }}</h1>
+        <h2 class="blog-description">{{ site.description }}</h2>
+        <div class="custom-links">
+          <a href="/">Blog</a>
+          &nbsp;&nbsp;·&nbsp;&nbsp;
+          <a href="/about">About</a>
+          &nbsp;&nbsp;·&nbsp;&nbsp;
+          <a href="/portfolio">Portfolio</a>
+        </div>
+      </header>
+      <main class="content" role="main">
+        {{ content }}
+      </main>
     </div>
+  </div>
 
-    <!-- content end -->
+  <!-- content end -->
 
-    {% include footer.html %}
-    {% include javascripts.html %}
+  {% include footer.html %}
+  {% include javascripts.html %}
 
   </body>
 
