@@ -25,10 +25,12 @@
         <h2 class="blog-description">{{ site.description }}</h2>
         <div class="custom-links">
           <a href="/">Blog</a>
-          &nbsp;&nbsp;·&nbsp;&nbsp;
-          <a href="/about">About</a>
-          &nbsp;&nbsp;·&nbsp;&nbsp;
-          <a href="/portfolio">Portfolio</a>
+          {% for page in site.pages %}
+          {% if page.categories contains 'header' %}
+            &nbsp;&nbsp;·&nbsp;&nbsp;
+            <a href="{{ page.url }}">{{ page.title }}</a>
+          {% endif %}
+          {% endfor %}
         </div>
       </header>
       <main class="content" role="main">

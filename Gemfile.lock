@@ -16,7 +16,7 @@ GEM
       deep_merge (= 1.0.0)
     deep_merge (1.0.0)
     dotenv (1.0.2)
-    execjs (2.2.2)
+    execjs (2.3.0)
     fast-stemmer (1.0.2)
     ffi (1.9.6)
     hitimes (1.2.2)
@@ -43,7 +43,6 @@ GEM
       sass (~> 3.2)
     jekyll-watch (1.2.1)
       listen (~> 2.7)
-    json (1.8.2)
     kramdown (1.5.0)
     liquid (2.6.2)
     listen (2.8.5)
@@ -81,6 +80,5 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll
-  json
   rake
   s3_website

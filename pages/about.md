@@ -2,7 +2,7 @@
 layout: page
 title: About
 permalink: /about/
-categories:
+categories: 
 tags:
 image:
 ---

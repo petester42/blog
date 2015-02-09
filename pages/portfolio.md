@@ -2,7 +2,7 @@
 layout: page
 title: Portfolio
 permalink: /portfolio/
-categories:
+categories: 
 tags:
 image:
 ---
