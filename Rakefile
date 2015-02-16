@@ -65,7 +65,7 @@ desc "Start server"
 task :server do
   puts "Starting server"
 
-  jekyll = Process.spawn("bundle exec jekyll serve")
+  jekyll = Process.spawn("bundle exec jekyll serve --drafts")
 
   trap("INT") {
     Process.kill(9, jekyll) rescue Errno::ESRCH
