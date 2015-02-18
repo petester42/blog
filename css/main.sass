@@ -24,12 +24,14 @@ main
   display: block
 
 ::-webkit-scrollbar
-  width: 8px
-  height: 8px
+  width: 10px
+  height: 10px
 
 ::-webkit-scrollbar-thumb 
   background-color: #ccc
   border-radius: 0.5em
+  border: 2px solid rgba(0,0,0,0)
+  background-clip: padding-box
 
 ::-webkit-scrollbar-thumb:hover
   background-color: #aaa
@@ -165,7 +167,7 @@ body
   margin: 0 auto
   @include box-sizing(border-box)
   @include respond-to(800)
-    padding: 0 $rs*2
+    padding: 0 10px
   article
     padding: 30px 0 0 0
     border-bottom: 1px solid #f2f2f0
