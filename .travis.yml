@@ -9,6 +9,10 @@ branches:
 install:
 - bundle install
 script:
+- rake build:drafts
+after_success:
+- rake deploy:travisStaging
+script:
 - rake build
 after_success:
-- rake deploy:travis
+- rake deploy:travisProduction

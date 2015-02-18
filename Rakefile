@@ -15,8 +15,8 @@ namespace :deploy do
     sh 'rake deploy:staging'
   end
 
-  desc "Deploy if Travis environment variables are set correctly"
-  task :travis do
+  desc "Deploy production if Travis environment variables are set correctly"
+  task :travisProduction do
     branch = ENV['TRAVIS_BRANCH']
     pull_request = ENV['TRAVIS_PULL_REQUEST']
     
@@ -32,7 +32,27 @@ namespace :deploy do
       exit 0
     end
 
-    sh 'rake deploy:all'
+    sh 'rake deploy:production'
+  end
+
+  desc "Deploy staging if Travis environment variables are set correctly"
+  task :travisStaging do
+    branch = ENV['TRAVIS_BRANCH']
+    pull_request = ENV['TRAVIS_PULL_REQUEST']
+    
+    abort 'Must be run on Travis' unless branch
+    
+    if pull_request != 'false'
+      puts 'Skipping deploy for pull request; can only be deployed from master branch.'
+      exit 0 
+    end
+
+    if branch != 'master'
+      puts "Skipping deploy for #{ branch }; can only be deployed from master branch."
+      exit 0
+    end
+
+    sh 'rake deploy:staging'
   end
 end
 
@@ -50,10 +70,7 @@ namespace :publish do
   end
 
   desc "Build and deploy to both staging and production"
-  task :all do
-    sh 'rake build'
-    sh 'rake deploy:all'
-  end
+  task :all => [:staging, :production]
 end
 
 namespace :build do
