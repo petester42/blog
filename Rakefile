@@ -45,7 +45,7 @@ namespace :publish do
 
   desc "Build and deploy to staging"
   task :staging do
-    sh 'rake build'
+    sh 'rake build:drafts'
     sh 'rake deploy:staging'
   end
 
@@ -56,10 +56,20 @@ namespace :publish do
   end
 end
 
-desc "Build site locally"
-task :build do
-  sh 'bundle exec jekyll build'
+namespace :build do
+  desc "Build site with drafts"
+  task :drafts do
+    sh 'bundle exec jekyll build --drafts'
+  end
+
+  desc "Build site"
+  task :nodrafts do
+    sh 'bundle exec jekyll build'
+  end
 end
+
+desc "build site without drafts"
+task :build => 'build:nodrafts'
 
 desc "Start server"
 task :server do
