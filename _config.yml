@@ -1,5 +1,8 @@
 # Build settings
+# Build settings
 markdown: redcarpet
+redcarpet:
+  extensions: ["tables", "autolink", "strikethrough", "with_toc_data", "fenced_code_blocks"]
 highlighter: pygments
 
 # Site settings

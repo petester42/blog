@@ -64,18 +64,18 @@ Under this tab there will be a list of options. Find `Background Modes` and togg
 
 We can now start adding code the project. There is a lot of set up to add such a small feature. We will now open up the `AppDelegate.swift`, `import PushKit` and then register for notifications.
 
-	import UIKit
-	import PushKit
+```swift
+import UIKit
+import PushKit
 
-	@UIApplicationMain
-	class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         //Enable all notification type. VoIP Notifications don't present a UI but we will use this to show local nofications later
-        let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound , categories: nil)
+        let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, categories: nil)
         
         //register the notification settings
         application.registerUserNotificationSettings(notificationSettings)
@@ -91,21 +91,25 @@ We can now start adding code the project. There is a lot of set up to add such a
         //output to see when we terminate the app
         NSLog("App terminated")
     }
-	}
+}
+```
 
 In order to check that our app is working properly there are a couple of print messages. This will allow us to check that our app is launched in the background when we receive a notification. We are using `NSLog` instead of `println` in this case since `println` does not write to the system log (this will be useful later). Since we are using the `registerUserNotificationSettings` method we need to implement it's delegate callback `application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings)`. In this callback we will register the VoIP notifications since we will know that the user has agreed to receive notifications. 
 
-	    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+```swift
+func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         
-        //register for voip notifications
-        let voipRegistry = PKPushRegistry(queue: dispatch_get_main_queue())
-        voipRegistry.desiredPushTypes = NSSet(array: [PKPushTypeVoIP])
-        voipRegistry.delegate = self;
-    }
+    //register for voip notifications
+    let voipRegistry = PKPushRegistry(queue: dispatch_get_main_queue())
+    voipRegistry.desiredPushTypes = NSSet(array: [PKPushTypeVoIP])
+    voipRegistry.delegate = self;
+}
+```
 
-We have just enabled VoIP notifications by declaring the `voipRegistry` object. The `PKPushRegistry` initializer takes a GCD queue as input which determines what queue it's delegates callbacks get called on. For now we will use the main queue since for this simple test it does not matter too much. In order to be able to act on the `voipRegistry` object we need to set a delegate which for simplicity we will set to `self`. The delegate for `voipRegistry`is of type [`PKPushRegistryDelegate`](https://developer.apple.com/library/ios/documentation/PushKit/Reference/PKPushRegistryDelegate_Protocol/index.html) which has three method, two of which are required. So let's add those methods to our project.
+We have just enabled VoIP notifications by declaring the `voipRegistry` object. The `PKPushRegistry` initializer takes a GCD queue as input which determines what queue it's delegates callbacks get called on. For now we will use the main queue since for this simple test it does not matter too much. In order to be able to act on the `voipRegistry` object we need to set a delegate which for simplicity we will set to `self`. The delegate for `voipRegistry` is of type [`PKPushRegistryDelegate`](https://developer.apple.com/library/ios/documentation/PushKit/Reference/PKPushRegistryDelegate_Protocol/index.html) which has three method, two of which are required. So let's add those methods to our project.
 
-	extension AppDelegate: PKPushRegistryDelegate {
+```swift
+extension AppDelegate: PKPushRegistryDelegate {
 
     func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
         
@@ -143,7 +147,8 @@ We have just enabled VoIP notifications by declaring the `voipRegistry` object. 
         
         NSLog("token invalidated")
     }
-	}
+}
+```
 
 We don't really need to add any code to these methods but for our tests we will present a `UILocalNotification` or a `UIAlertView` when we receive a VoIP push notification. We are printing the token since we will need this later to test that we can receive notifications properly. That's it! We should have functioning notifications now which will restart our app in the background when received.
 
@@ -151,7 +156,9 @@ We don't really need to add any code to these methods but for our tests we will 
 
 To test the sending of push notifications we will use a useful tool by [Mattt Thompson](https://twitter.com/mattt) called [houston](https://github.com/nomad/Houston). To install the tool just run the following command (sudo might be needed depending on your installation):
 
-	(sudo) gem install houston
+```bash
+(sudo) gem install houston
+```
 
 Remember that certificate we created oh so long ago? Well, it's time to use it now. Houston needs us to convert it to something it can understand which can be done by following the instructions [here](https://github.com/nomad/Houston#converting-your-certificate). Once we have our `.pem` file we can use the command line interface of houston to push notifications to our app.
 
@@ -161,13 +168,15 @@ Let's go back into Xcode and run our app. To test push notifications we will nee
 
 Take the VoIP token and copy it into your clipboard so that we can use it in the following houston command:
 
-	apn push "<token>" -c /path/to/apple_push_notification.pem -m "Hello from the command line!"
+```bash
+apn push "<token>" -c /path/to/apple_push_notification.pem -m "Hello from the command line!"
+```
 
 Open up the Terminal app of your choice and then enter the above command with your parameters and run it. The output should look as follows:
 
 ![][11]
  
-The application should also display either a `UILocalNotification`or `UIAlertView` if everything has gone right. Now terminate the app and rerun the command. To see that the app has resumed we can open up devices viewer by going to Window > Devices in the top menu in Xcode.
+The application should also display either a `UILocalNotification` or `UIAlertView` if everything has gone right. Now terminate the app and rerun the command. To see that the app has resumed we can open up devices viewer by going to Window > Devices in the top menu in Xcode.
 
 ![][12]
 
