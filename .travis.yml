@@ -1,16 +1,16 @@
 
 language: ruby
 rvm:
-	- 2.2.0
+- 2.2.0
 # branch whitelist
 branches:
-	only:
-		- master
+only:
+- master
 install:
-	- bundle install
+- bundle install
 script:
-	- rake build:drafts
-	- rake build
+- rake build:drafts
+- rake build
 after_success:
-	- rake deploy:travisStaging
-	- rake deploy:travisProduction
+- rake deploy:travisStaging
+- rake deploy:travisProduction
