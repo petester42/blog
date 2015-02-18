@@ -76,12 +76,12 @@ end
 namespace :build do
   desc "Build site with drafts"
   task :drafts do
-    sh 'bundle exec jekyll build --drafts'
+    sh 'bundle exec jekyll build --drafts -d ./_staging'
   end
 
   desc "Build site"
   task :nodrafts do
-    sh 'bundle exec jekyll build'
+    sh 'bundle exec jekyll build -d ./_production'
   end
 end
 
