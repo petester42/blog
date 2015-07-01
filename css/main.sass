@@ -35,22 +35,29 @@ body
   -o-font-feature-settings: "liga", "dlig"
   font-feature-settings: "liga", "dlig"
 
+.header
+  position: block
+  margin: 0
+  padding: 0
+  width: 100%
+  height: $rs*3
+  background-color: rgba(10,125,255,1.0)
+
 .logo-readium
   position: absolute
-  left: 10px
-  top: 10px
+  margin: 0 0 0 10px
   width: $rs*3
   height: $rs*3
-  background-color: rgba(0,0,0,0.75)
+  background-color: #fff
   overflow: hidden
   z-index: 99
   display: table
   text-decoration: none
 
   .blog-logo-title
-    text-color: #fff
+    text-color: rgba(10,125,255,1.0)
     text-align: center
-    color: #fff
+    color: rgba(10,125,255,1.0)
     vertical-align: middle
     display: table-cell
     font-size: 20px
@@ -86,7 +93,7 @@ body
 .blog-header
   width: 100%
   max-width: 800px
-  margin: 0 auto
+  margin: 30px auto auto auto
   position: relative
   padding: 0
   @include box-sizing(border-box)
@@ -95,18 +102,16 @@ body
   .blog-logo
     width: $rs*7.5
     height: $rs*7.5
-    position: absolute
-    top: -$rs*3.75
-    right: 50%
-    margin-right: -$rs*3.75
+    position: block
+    margin: 0 auto
     background-size: cover
     border-radius: 50%
     z-index: 99
     border: 3px solid #fff
-    background-color: #000
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3)
-    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3)
-    box-shadow: 0 1px 1px rgba(0,0,0,0.3)
+    background-color: rgba(10,125,255,1.0)
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3)
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.3)
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3)
     display: table
     text-decoration: none
 
@@ -121,7 +126,7 @@ body
 
   .blog-title
     margin: 0
-    padding: $rs*5.25 $rs $rs/2
+    padding: $rs $rs $rs/2
     font-size: 50px
     text-align: center
     font-weight: 700
@@ -151,12 +156,12 @@ body
 .content
   width: 100%
   max-width: 800px
-  margin: 0 auto
+  margin: 10px auto
   @include box-sizing(border-box)
   @include respond-to(800)
     padding: 0 10px
   article
-    padding: 30px 0 0 0
+    padding: 15px 0 15px 0
     border-bottom: 1px solid #f2f2f0
     &:last-child
       border-bottom: 0px
@@ -184,11 +189,20 @@ body
       font-size: 14px
       color: #b3b3b1
       line-height: 30px
+      text-align: center
       a
         color: #b3b3b1
         text-decoration: none
         &:hover
           text-decoration: underline
+.break
+  padding: 0
+  display: block
+  width: 15%
+  margin: 30px auto 20px auto
+  border: 0px solid #ddd
+  border-top: 1px solid #ddd
+
 .container.featured
   padding-bottom: 0px
 
@@ -238,7 +252,7 @@ body
   text-shadow: 0px 1px 4px rgba(0,0,0,0.25), 0px 0px 1px rgba(0,0,0,0.5)
 
 .site-footer
-  margin: 20px auto 20px
+  margin: 15px auto 15px
   padding: 0 0
   width: 100%
   max-width: 800px
@@ -286,7 +300,7 @@ body
       font-weight: 700
       font-style: normal
       letter-spacing: -0.04em
-      font-size: 50px
+      font-size: 40px
       line-height: 1.1
       color: #fff
       margin-bottom: 16px
@@ -336,7 +350,7 @@ body
       font-weight: 700
       font-style: normal
       letter-spacing: -0.04em
-      font-size: 50px
+      font-size: 40px
       line-height: 1.1
       color: #333332
       margin-bottom: 30px
@@ -391,7 +405,7 @@ body
     p
       font-weight: 400
       font-style: normal
-      font-size: 22px
+      font-size: 20px
       line-height: 30px
       margin: 0 0 0 0
       padding: 10px 0 10px 0
@@ -456,7 +470,7 @@ body
     ol li
       list-style-type: decimal
   .bottom-teaser
-    padding: 10px 0 30px
+    padding: 10px 0 15px
     font-family: $font-sans
     hr
       border: 0
@@ -536,7 +550,7 @@ body
   padding: 20px 0 0
   a
     text-decoration: none
-    color: #bbb
+    color: rgba(10,125,255,1.0)
     padding-left: 12px
     .hidden
       display: none
@@ -611,9 +625,13 @@ body
 .post-tag-articleimage
   display: none
 
-.social-icons 
+.social-icons
   font-size: 40px
   .icon
+    a
+      color: rgba(10,125,255,1.0)
+      &:hover
+        color: #333
     display: inline-block
     padding: 0 5px 0 5px
 
@@ -640,7 +658,7 @@ pre::-webkit-scrollbar
   width: 10px
   height: 10px
 
-pre::-webkit-scrollbar-thumb 
+pre::-webkit-scrollbar-thumb
   background-color: #ccc
   border-radius: 0.5em
   border: 2px solid rgba(0,0,0,0)

@@ -5,18 +5,10 @@
 
   <body>
 
-  {% include header.html %}
-
   <!-- content start -->
 
   <div class="page-content">
     <div class="wrapper">
-      <div class="teaserimage">
-        <div class="teaserimage-image" {% if site.cover %}style="background-image: url({{ site.cover }})"{% endif %}>
-          Teaser Image
-        </div>
-      </div>
-
       <header class="blog-header">
         {% if site.logo %}
           <a class="blog-logo" href="{{ site.url }}"><div class="blog-logo-title">{{ site.logo }}</div></a>
