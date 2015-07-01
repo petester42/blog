@@ -1,7 +1,7 @@
 # Blog
 [![Build Status](https://travis-ci.org/petester42/pierremarcairoldi.svg?branch=master)](https://travis-ci.org/petester42/pierremarcairoldi)
 
-Code for my blog at [pierremarcairoldi.com](http://pierremarcairoldi@gmail.com)
+Code for my blog at [pierremarcairoldi.com](http://pierremarcairoldi.com)
 
 ## License
 
