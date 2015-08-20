@@ -18,7 +18,7 @@ The problem is that `UIRemoteNotificationTypeVoIP` does not exists. It does not 
 
 #Configuration
 
-Before getting started with the implementation there are a couple of things that need to be done. Firstly, a `VoIP Services` certificate will be needed so navigation to the [iOS Developer Center](https://developer.apple.com/devcenter/ios/index.action) and navigate to the `Certificates, Identifier & Profiles` section as seen below: 
+Before getting started with the implementation there are a couple of things that need to be done. Firstly, a `VoIP Services` certificate will be needed so navigation to the [iOS Developer Center](https://developer.apple.com/devcenter/ios/index.action) and navigate to the `Certificates, Identifier & Profiles` section as seen below:
 
 ![][1]
 
@@ -48,9 +48,9 @@ Download the certificate and open it when it has finished. This should open the 
 
 #Implementation
 
-To start off, open Xcode and create a new `Single View Application` iOS app. For the product name use `voip` and make sure the the bundle identifier is `com.pierremarcairoldi.voip`. The bundle identifier is very important since in order for push to work for our app it needs to be the same as the one we used to create the certificate in the previous section. 
+To start off, open Xcode and create a new `Single View Application` iOS app. For the product name use `voip` and make sure the the bundle identifier is `com.pierremarcairoldi.voip`. The bundle identifier is very important since in order for push to work for our app it needs to be the same as the one we used to create the certificate in the previous section.
 
-The last thing we need to do before writing any code is to turn on `Background Modes` for our app. This option is found under the capabilities tab under our app target (as seen below). 
+The last thing we need to do before writing any code is to turn on `Background Modes` for our app. This option is found under the capabilities tab under our app target (as seen below).
 
 ![][8]
 
@@ -70,38 +70,39 @@ import PushKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         //Enable all notification type. VoIP Notifications don't present a UI but we will use this to show local nofications later
         let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, categories: nil)
-        
+
         //register the notification settings
         application.registerUserNotificationSettings(notificationSettings)
 
         //output what state the app is in. This will be used to see when the app is started in the background
         NSLog("app launched with state \(application.applicationState.stringValue)")
-        
+
         return true
     }
 
     func applicationWillTerminate(application: UIApplication) {
 
         //output to see when we terminate the app
-        NSLog("App terminated")
+        NSLog("app terminated")
     }
 }
 ```
 
-In order to check that our app is working properly there are a couple of print messages. This will allow us to check that our app is launched in the background when we receive a notification. We are using `NSLog` instead of `println` in this case since `println` does not write to the system log (this will be useful later). Since we are using the `registerUserNotificationSettings` method we need to implement it's delegate callback `application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings)`. In this callback we will register the VoIP notifications since we will know that the user has agreed to receive notifications. 
+In order to check that our app is working properly there are a couple of print messages. This will allow us to check that our app is launched in the background when we receive a notification. We are using `NSLog` instead of `println` in this case since `println` does not write to the system log (this will be useful later). Since we are using the `registerUserNotificationSettings` method we need to implement it's delegate callback `application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings)`. In this callback we will register the VoIP notifications since we will know that the user has agreed to receive notifications.
 
 ```swift
 func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        
+
     //register for voip notifications
     let voipRegistry = PKPushRegistry(queue: dispatch_get_main_queue())
-    voipRegistry.desiredPushTypes = NSSet(array: [PKPushTypeVoIP])
+    voipRegistry.desiredPushTypes = Set([PKPushTypeVoIP])
     voipRegistry.delegate = self;
 }
 ```
@@ -112,39 +113,41 @@ We have just enabled VoIP notifications by declaring the `voipRegistry` object. 
 extension AppDelegate: PKPushRegistryDelegate {
 
     func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
-        
+
         //print out the VoIP token. We will use this to test the nofications.
         NSLog("voip token: \(credentials.token)")
     }
-    
+
     func pushRegistry(registry: PKPushRegistry!, didReceiveIncomingPushWithPayload payload: PKPushPayload!, forType type: String!) {
-        
+
+        let payloadDict = payload.dictionaryPayload["aps"] as? Dictionary<String, String>
+        let message = payloadDict?["alert"]
+
         //present a local notifcation to visually see when we are recieving a VoIP Notification
-        
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Background {
-        
+
             let localNotification = UILocalNotification();
-            localNotification.alertBody = "VoIP Notification Recieved"
+            localNotification.alertBody = message
             localNotification.applicationIconBadgeNumber = 1;
             localNotification.soundName = UILocalNotificationDefaultSoundName;
 
             UIApplication.sharedApplication().presentLocalNotificationNow(localNotification);
         }
-        
+
         else {
-            
+
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                let alert = UIAlertView(title: "VoIP Notification", message: nil, delegate: nil, cancelButtonTitle: "Ok");
+
+                let alert = UIAlertView(title: "VoIP Notification", message: message, delegate: nil, cancelButtonTitle: "Ok");
                 alert.show()
             })
         }
-        
+
         NSLog("incoming voip notfication: \(payload.dictionaryPayload)")
     }
-    
+
     func pushRegistry(registry: PKPushRegistry!, didInvalidatePushTokenForType type: String!) {
-        
+
         NSLog("token invalidated")
     }
 }
@@ -175,12 +178,12 @@ apn push "<token>" -c /path/to/apple_push_notification.pem -m "Hello from the co
 Open up the Terminal app of your choice and then enter the above command with your parameters and run it. The output should look as follows:
 
 ![][11]
- 
+
 The application should also display either a `UILocalNotification` or `UIAlertView` if everything has gone right. Now terminate the app and rerun the command. To see that the app has resumed we can open up devices viewer by going to Window > Devices in the top menu in Xcode.
 
 ![][12]
 
-Select the correct device from the left and then click the bottom section where there is a log. After having clicked into the log area enter `⌘ + f` to search. Search `app launched with state` and check if the app has resumed in the background. 
+Select the correct device from the left and then click the bottom section where there is a log. After having clicked into the log area enter `⌘ + f` to search. Search `app launched with state` and check if the app has resumed in the background.
 
 ![][13]
 
@@ -201,5 +204,3 @@ The full source for this project can be found on [Github](https://github.com/pet
 [11]: /assets/posts/ios-8-voip-notifications/ios-8-voip-notifications-11.jpg
 [12]: /assets/posts/ios-8-voip-notifications/ios-8-voip-notifications-12.jpg
 [13]: /assets/posts/ios-8-voip-notifications/ios-8-voip-notifications-13.jpg
-
-
