@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
 
-  {% include head.html %}
+{% include head.html %}
 
-  <body>
+<body>
 
   <!-- content start -->
 
   <div class="page-content">
     <div class="wrapper">
+      <div class="teaserimage">
+        <div class="teaserimage-image" {% if site.cover %}style="background-image: url({{ site.cover }})"{% endif %}></div>
+      </div>
       <header class="blog-header">
-        {% if site.logo %}
-          <a class="blog-logo" href="{{ site.url }}"><div class="blog-logo-title">{{ site.logo }}</div></a>
-        {% endif %}
-        <h1 class="blog-title">{{ site.title }}</h1>
+        <h1 class="blog-title">
+          <a href="{{ site.url }}">
+            {{ site.title }}
+          </a>
+        </h1>
         <h2 class="blog-description">{{ site.description }}</h2>
         <div class="custom-links">
           <a href="/">Blog</a>
+          &nbsp;&nbsp;·&nbsp;&nbsp;
+          <a href="/assets/resume.pdf">Resume</a>
           {% for page in site.pages %}
           {% if page.categories contains 'header' %}
-            &nbsp;&nbsp;·&nbsp;&nbsp;
-            <a href="{{ page.url }}">{{ page.title }}</a>
+          &nbsp;&nbsp;·&nbsp;&nbsp;
+          <a href="{{ page.url }}">{{ page.title }}</a>
           {% endif %}
           {% endfor %}
         </div>
@@ -36,6 +42,6 @@
   {% include footer.html %}
   {% include javascripts.html %}
 
-  </body>
+</body>
 
 </html>
