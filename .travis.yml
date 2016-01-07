@@ -12,5 +12,5 @@ script:
 - rake build:drafts
 - rake build
 after_success:
-- rake deploy:travisStaging
-- rake deploy:travisProduction
+- rake deploy:travis_staging
+- rake deploy:travis_production

@@ -16,15 +16,15 @@ namespace :deploy do
   end
 
   desc "Deploy production if Travis environment variables are set correctly"
-  task :travisProduction do
+  task :travis_production do
     branch = ENV['TRAVIS_BRANCH']
     pull_request = ENV['TRAVIS_PULL_REQUEST']
-    
+
     abort 'Must be run on Travis' unless branch
-    
+
     if pull_request != 'false'
       puts 'Skipping deploy for pull request; can only be deployed from master branch.'
-      exit 0 
+      exit 0
     end
 
     if branch != 'master'
@@ -36,15 +36,15 @@ namespace :deploy do
   end
 
   desc "Deploy staging if Travis environment variables are set correctly"
-  task :travisStaging do
+  task :travis_staging do
     branch = ENV['TRAVIS_BRANCH']
     pull_request = ENV['TRAVIS_PULL_REQUEST']
-    
+
     abort 'Must be run on Travis' unless branch
-    
+
     if pull_request != 'false'
       puts 'Skipping deploy for pull request; can only be deployed from master branch.'
-      exit 0 
+      exit 0
     end
 
     if branch != 'master'
@@ -100,6 +100,6 @@ task :server do
   }
 
   Process.wait(jekyll)
-end 
+end
 
 task :default => :server
