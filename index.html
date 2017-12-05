@@ -13,7 +13,6 @@ layout: default
         </section>
         <div class="post-meta">
           <time datetime="{{ page.date | date: "%F %R" }}">{{ post.date | date: "%B %d, %Y" }}</time>
-<!--            <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>-->
         </div>
       </div>
     </article>
@@ -34,5 +33,3 @@ layout: default
     {% endif %}
   {% endif %}
 </nav>
-
-<!-- {{!! After all the posts, we have the previous/next pagination links }} {{pagination}} -->
